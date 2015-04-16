@@ -11,7 +11,27 @@ function solenoid() {
    * Return frame
   **/
   this.frame = function() {
-    var frame = 'b,ss:' + this.color + ',';
+      var length = 540;
+      var radius = 25;
+      var rt = radius/4;
+      var sx = 100;
+      var sy = 100;
+      var t1 = new Date();
+      var i = rt/100;
+      var path = 'cs,cw,b,ss:#000,w:5,m:100:' + (100 - radius + rt) + ',';
+      var end = length/rt + ((length/rt) % (2*Math.PI));
+      for (var t = i; t < end; t += i) {
+        path += 'l:' + (sx + (rt * t) - (radius * Math.sin(t))) + ':' + (sy + rt - (radius * Math.cos(t))) + ',';
+      }
+      path += ',s,c,b,m:100:' + (100 + radius*2) + ',l:' + (100 + length) + ':' + (100 + radius*2) + ',ss:#000,w:5,s,c';
+      var canvas = document.getElementById('simulator');
+      var ctx = canvas.getContext('2d');
+      jCanvasDraw(canvas, ctx, path);
+      var t2 = new Date();
+      console.log("inc [" + i + "]: " + (t2 - t1));
+    var frame = 'b,sa,ss:' + this.color + ',';
+    frame += 'sa,';
+    frame += ',s,re,c';
     return frame;
   };
 
