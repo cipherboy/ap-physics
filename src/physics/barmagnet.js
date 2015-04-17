@@ -1,33 +1,20 @@
 /**
- * Creates solenoid objects to draw and calculate forces from it
+ * Creates barmagnet objects to draw and calculate forces from it
 **/
-function solenoid() {
+function barmagnet() {
   this.length = 0;
-  this.coils = 0;
   this.center = [0, 0];
   this.angle = 0;
   this.radius = 0;
-  this.current = 0;
+  this.strength = 0;
   this.width = 0;
   this.color = '#000';
   
   /**
    * Return drawn frame.
-   * Notes: Cycloid circle has radius smaller than drawing arm creating loops.
-   *        Quantity of loops unrelated to coil count; starts from bound[0].
   **/
   this.frame = function() {
-    var frame = 'b,sa,ss:' + this.color + ',sa,r:' + this.angle + ',w:' + this.width + ',';
-    var corner = this.bounds()[0];
-    var working = this.radius/4;
-    var increment = working/100;
-    var end = this.length/working + ((this.length/working) % (2*Math.PI));
-    frame += 'm:' + corner[0] + ':' + corner[1];
-    for (var t = i; t < end; t += increment) {
-      path += 'l:' + (corner[0] + (working * t) - (this.radius * Math.sin(t))) + ':' + (corner[1] + working - (this.radius * Math.cos(t))) + ',';
-    }
-    frame += 's,re,c';
-    return frame;
+    
   };
 
   /** 
@@ -35,11 +22,8 @@ function solenoid() {
    * Return magnetic field acting on object.
   **/
   this.field = function(object) {
-    if (this.contains(object)) {
-      return [4 * Math.PI * 1E-7 * object.charge * this.coils/this.length * this.current, this.angle];
-    } else {
-      return [4 * Math.PI * 1E-7 * object.charge * this.coils/this.length * this.current / Math.pow(this.distance(object), 2), this.angle];
-    }
+    // http://dmr-physicsnotes.blogspot.com/2013/01/magnetic-field-strength-at-point-due-to.html
+    return this.strength;
   };
 
   /**
