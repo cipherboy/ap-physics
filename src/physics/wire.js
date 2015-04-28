@@ -10,6 +10,17 @@ function wire() {
   this.current = 0;
   this.color = '#000';
   this.width = 0;
+
+  /**
+   * Generic initialization function
+  **/
+  this.init = function(obj) {
+    for (place in obj) {
+      if (place && place in this) {
+        this[place] = obj[place];
+      }
+    }
+  };
   
   /**
    * Return drawn frame.
