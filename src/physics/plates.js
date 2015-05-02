@@ -3,7 +3,7 @@
  * calculates the force on the object
  * gives charge given to the object
 **/
-function plates() {
+function Plates() {
   this.length = 0;
   this.charge = 0;
   this.force = function() { };

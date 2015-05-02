@@ -1,4 +1,7 @@
 canvas#simulator {
-  width: 800px;
-  height: 600px;
+  width: 800px !important;
+  height: 600px !important;
+  border: 1px solid #4466aa;
+  display: block;
+  margin: auto !important;
 }

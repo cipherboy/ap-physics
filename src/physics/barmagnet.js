@@ -1,14 +1,14 @@
 /**
  * Creates barmagnet objects to draw and calculate forces from it
 **/
-function barmagnet() {
+function Barmagnet() {
   this.length = 0;
   this.center = [0, 0];
   this.angle = 0;
   this.radius = 0;
   this.strength = 0;
   this.width = 0;
-  this.color = '#000';
+  this.colors = ['#000', '#000'];
 
   /**
    * Generic initialization function
@@ -25,7 +25,35 @@ function barmagnet() {
    * Return drawn frame.
   **/
   this.frame = function() {
-    
+    var boxes = [
+      [
+        [this.center[0] - this.length/2, this.center[1] - this.radius],
+        [this.center[0] + this.length/2, this.center[1] - this.radius],
+        [this.center[0] + this.length/2, this.center[1] - this.width/2],
+        [this.center[0] - this.length/2, this.center[1] - this.width/2],
+      ]
+      ,
+      [
+        [this.center[0] - this.length/2, this.center[1] + this.width/2],
+        [this.center[0] + this.length/2, this.center[1] + this.width/2],
+        [this.center[0] + this.length/2, this.center[1] + this.radius],
+        [this.center[0] - this.length/2, this.center[1] + this.radius],
+      ]
+    ];
+    var frame = '';
+    for (var boxid in boxes) {
+      console.log(this.colors[boxid]);
+      frame += 'b,ss:' + this.colors[boxid] + ',fs:' + this.colors[boxid] + ',sa,';
+      var start = this.rotate(boxes[boxid][3], this.angle); 
+      frame += 'm:' + start[0] + ':' + start[1] + ',';
+      for (var pid = 0; pid < 5; pid ++) {
+        var points = this.rotate(boxes[boxid][pid % 4], this.angle);
+        frame += 'l:' + points[0] + ':' + points[1] + ',';
+      };
+      frame += ',w:' + this.width + ',s,f,re,c,';
+    };
+    console.log(frame);
+    return frame;
   };
 
   /** 
@@ -96,18 +124,11 @@ function barmagnet() {
    * 3-------2
   **/
   this.bounds = function() {
-    var transform = [
-      rotate([-1*this.length, r], this.angle),
-      rotate([this.length, r], this.angle),
-      rotate([this.length, -r], this.angle),
-      rotate([-1*this.length, r], this.angle),
-    ];
-    
     return [
-      [center[0] + transform[0][0], center[1] + transform[0][1]],
-      [center[0] + transform[1][0], center[1] + transform[1][1]],
-      [center[0] + transform[2][0], center[1] + transform[2][1]],
-      [center[0] + transform[3][0], center[1] + transform[3][1]]
+      this.rotate([this.center[0] - this.length/2, this.center[1] - this.radius], this.angle),
+      this.rotate([this.center[0] + this.length/2, this.center[1] - this.radius], this.angle),
+      this.rotate([this.center[0] + this.length/2, this.center[1] + this.radius], this.angle),
+      this.rotate([this.center[0] - this.length/2, this.center[1] + this.radius], this.angle),
     ];
   };
 
@@ -118,6 +139,10 @@ function barmagnet() {
    * Note: if center != origin, add after return.
   **/
   this.rotate = function(points, angle) {
-    return [ points[0] * Math.cos(angle) - points[1] * Math.sin(angle) , points[0] * Math.sin(angle) + points[1] * Math.sin(angle) ];
+    var x = points[0] - this.center[0]; 
+    var y = points[1] - this.center[1];
+    var cos = Math.cos(angle);
+    var sin = Math.sin(angle);
+    return [ x*cos + y*sin + this.center[0], -x*sin + y*cos + this.center[1] ];
   };
 };

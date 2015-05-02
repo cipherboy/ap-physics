@@ -2,7 +2,7 @@
  * Creates wire objects to draw and calculate forces from it
  * ---Retired---
 **/
-function wire() {
+function Wire() {
   this.length = 0;
   this.center = [0, 0];
   this.angle = 0;
