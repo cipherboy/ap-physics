@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All | Physics Simulator | AP Physics II</title>
+    <link rel="stylesheet" type="text/css" href="../styles/main.css">
+  </head>
+  <body>
+    <h1>Test Cases</h1>
+    <canvas id="foreground" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
+    <canvas id="background" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
+    <script type="text/javascript" src="../src/libs/jCanvas.js"></script>
+    <script type="text/javascript" src="../src/libs/jQuery.js"></script>
+    <script type="text/javascript" src="../src/game.js"></script>
+    <script type="text/javascript" src="../src/physics/solenoid.js"></script>
+    <script type="text/javascript" src="../src/physics/barmagnet.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var game = new Controller();
+        var solenoid = new Solenoid();
+        var barmagnet = new Barmagnet();
+        solenoid.init({
+          'length': 620,
+          'coils': 5,
+          'angle': Math.PI/6,
+          'radius': 50,
+          'center': [400, 400],
+          'width': 5,
+          'color': '#46A'
+        })
+        barmagnet.init({
+          'length': 400,
+          'angle': -Math.PI/6,
+          'radius': 50,
+          'center': [1200, 800],
+          'width': 1,
+          'colors': ['#46A', '#A44']
+        });
+        
+        game.init({
+          cid: 'foreground',
+          sid: 'background',
+          elements: [
+            solenoid,
+            barmagnet
+          ],
+        });
+        game.static();
+      });
+    </script>
+  </body>
+</html>

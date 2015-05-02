@@ -114,9 +114,9 @@ function Barmagnet() {
   /**
    * Return bounds of object according to the following chart.
    * 
-   *     2l
+   *     l
    *     ^
-   *   l   l
+   *  l/2 l/2
    * 0-------1
    * |       | r
    * |   c   |   } 2r

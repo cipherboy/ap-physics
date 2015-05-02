@@ -1,9 +1,11 @@
 function Controller() {
   this.cid = '';
-  this.width = 800;
-  this.height = 600;
+  this.sid = '';
+  this.width = 1600;
+  this.height = 1200;
   this.force = {};
   this.framebuffer = [];
+  this.elements = [];
   this.bindHandler = function() {};
   this.unbindHandler = function() {};
 
@@ -19,9 +21,22 @@ function Controller() {
   };
 
   this.start = function() {
-    var canvas = document.getElementById(this.cid);
-    var ctx = canvas.getContext('2d');
     this.bindEvents();
+    this.static();
+    this.draw();
+  };
+  
+  this.draw = function() {
+  };
+    
+  this.static = function() {
+    var canvas = document.getElementById(this.sid);
+    var ctx = canvas.getContext('2d');
+    var frame = '';
+    for (var eid in this.elements) {
+      frame += this.elements[eid].frame() + ',';
+    }
+    jCanvasDraw(canvas, ctx, frame);
   };
   
   this.bindEvents = function() {

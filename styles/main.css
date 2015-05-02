@@ -1,7 +1,30 @@
-canvas#simulator {
+html,body {
+  width: 100%;
+  height: 100%;
+  margin: 0 0;
+  border: none;
+  padding: 0px;
+}
+
+h1 {
+  color: #4466AA;
+  text-align: center;
+}
+
+canvas.simulator {
   width: 800px !important;
   height: 600px !important;
   border: 1px solid #4466aa;
-  display: block;
-  margin: auto !important;
+  
+  position: absolute;
+  top: 100px;
+  left: calc(50% - 400px);
+}
+
+canvas#foreground {
+  z-index: 100;
+}
+
+canvas#background {
+  z-index: 1;
 }

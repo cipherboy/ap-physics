@@ -36,7 +36,7 @@ function Solenoid() {
       var points = this.rotate([((corner[0]) + (working * t) - (this.radius * Math.sin(t))), ((corner[1] + this.radius) - (this.radius * Math.cos(t)))], this.angle);
       frame += 'l:' + points[0] + ':' + points[1] + ',';
     }
-    frame += ',w:' + this.width + ',s,re,c';
+    frame += ',w:' + this.width + ',s,re,c,';
     return frame;
   };
 
@@ -101,9 +101,9 @@ function Solenoid() {
   /**
    * Return bounds of object according to the following chart.
    * 
-   *     2l
+   *     l
    *     ^
-   *   l   l
+   *  l/2 l/2
    * 0-------1
    * |       | r
    * |   c   |   } 2r
