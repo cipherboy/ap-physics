@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="../styles/main.css">
   </head>
   <body>
-    <canvas id="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
+    <canvas id="background" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
     <script type="text/javascript" src="../src/libs/jCanvas.js"></script>
     <script type="text/javascript" src="../src/libs/jQuery.js"></script>
     <script type="text/javascript" src="../src/physics/solenoid.js"></script>
@@ -22,7 +22,7 @@
           'color': '#46A'
         });
         var frame = solenoid.frame();
-        var canvas = document.getElementById('simulator');
+        var canvas = document.getElementById('background');
         var ctx = canvas.getContext('2d');
         jCanvasDraw(canvas, ctx, frame);
       });

@@ -39,6 +39,8 @@ function Controller() {
     jCanvasDraw(canvas, ctx, frame);
   };
   
+  this.eventHandler
+  
   this.bindEvents = function() {
     this.unbindEvents();
     $(document).on('keypress', { instance: this }, function(event) {
