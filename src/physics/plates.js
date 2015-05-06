@@ -2,8 +2,7 @@
 * Creates plate objects to draw and calculate forces from it
 **/
 
-function Plates()
-{
+function Plates() {
     this.length = 0;
     this.charge = 0;
     this.angle = 0;
@@ -16,14 +15,10 @@ function Plates()
     * Generic initialization function
     **/
     
-    this.init = function(obj)
-    {
-        for(place in obj)
-        {
+    this.init = function(obj){
+        for(place in obj){
             if(place && place in this)
-            {
                 this[place] = obj[place];
-            }
         }
     };
     
@@ -31,16 +26,14 @@ function Plates()
     * Return drawn frame.
     **/
     
-    this.frame = function()
-    {
+    this.frame = function() {
         var frame = 'b,sa,ss:' + this.color + ',r:' + this.angle + 'w:' + this.width + ",";
         var corners = this.bounds();
         from += 'm:' + corners[0][0] + ':' + corners[0][1] + ',l:' + corners[1][1] + ',';
         frame += 's,re,c'; 
     };
     
-    this.bounds = function()
-    {
+    this.bounds = function() {
         return [
             this.rotate([this.center[0] - this.length/2, this.center[1] - this.radius], this.angle),
             this.rotate([this.center[0] + this.length/2, this.center[1] - this.radius], this.angle),
@@ -49,8 +42,7 @@ function Plates()
         ];
     };
     
-    this.rotate = function(points, angle)
-    {
+    this.rotate = function(points, angle) {
         var x = points[0] - this.center[0];
         var y = points[1] - this.center[1];
         var cos = Math.cos(angle);
@@ -68,8 +60,7 @@ function Plates()
     * W = Eqr
     **/ 
     
-    this.field = function(object)
-    {
+    this.field = function(object) {
         var perm = 8.85E-12;
         return object.charge / [object.length * object.length * perm];
     };
