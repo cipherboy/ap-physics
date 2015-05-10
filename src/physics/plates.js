@@ -22,10 +22,14 @@ function Plates() {
    * Return drawn frame.
   **/
   this.frame = function() {
-    var frame = 'b,sa,ss:' + this.color + ',r:' + this.angle + 'w:' + this.width + ",";
+    var frame = 'b,ss:' + this.color + ',w:' + this.width + ",";
     var corners = this.bounds();
-    from += 'm:' + corners[0][0] + ':' + corners[0][1] + ',l:' + corners[1][1] + ',';
-    frame += 's,re,c';
+    frame += 'm:' + corners[0][0] + ':' + corners[0][1] + ',l:' + corners[1][0] + ':' + corners[1][1] + ',';
+    for (var i = 0; i < this.length/this.radius; i++) {
+      var start = corners[3][0] + i*this.radius;
+    }
+    frame += 's,c';
+    return frame;
   };
 
   /**
