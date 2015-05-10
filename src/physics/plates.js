@@ -34,12 +34,14 @@ function Plates() {
       var endv = this.rotate([end, this.center[1] + this.radius], this.angle);
       frame += 'm:' + startv[0] + ':' + startv[1] + ',l:' + endv[0] + ':' + endv[1] + ',';
     }
-    for (var start = this.center[0] - this.length/2;
-         start < this.center[0] + this.length/2;
-         start += tick_l * 2) {
-      var startv = this.rotate([start+tick_l/2, this.center[1] + this.radius - tick_l/2], this.angle);
-      var endv   = this.rotate([start+tick_l/2, this.center[1] + this.radius + tick_l/2], this.angle);
-      frame += 'm:' + startv[0] + ':' + startv[1] + ',l:' + endv[0] + ':' + endv[1] + ',';
+    if (this.charge > 0) {
+      for (var start = this.center[0] - this.length/2;
+           start < this.center[0] + this.length/2;
+           start += tick_l * 2) {
+        var startv = this.rotate([start+tick_l/2, this.center[1] + this.radius - tick_l/2], this.angle);
+        var endv   = this.rotate([start+tick_l/2, this.center[1] + this.radius + tick_l/2], this.angle);
+        frame += 'm:' + startv[0] + ':' + startv[1] + ',l:' + endv[0] + ':' + endv[1] + ',';
+      }
     }
     frame += 's,c';
     return frame;

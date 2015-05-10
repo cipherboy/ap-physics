@@ -18,32 +18,86 @@
     <script type="text/javascript">
       $(function() {
         var game = new Controller();
-        var solenoid = new Solenoid();
-        var barmagnet = new Barmagnet();
-        solenoid.init({
-          'length': 620,
-          'coils': 5,
-          'angle': Math.PI/6,
+        var barmagnet_one = new Barmagnet();
+        var barmagnet_two = new Barmagnet();
+        var solenoid_one = new Solenoid();
+        var solenoid_two = new Solenoid();
+        var plate_one = new Plates();
+        var plate_two = new Plates();
+        var plate_three = new Plates();
+        barmagnet_one.init({
+          'length': 533,
+          'angle': 0,
           'radius': 50,
-          'center': [400, 400],
+          'center': [500, 600],
+          'width': 1,
+          'colors': ['#46A', '#A44']
+        });
+        barmagnet_two.init({
+          'length': 200,
+          'angle': Math.PI,
+          'radius': 75,
+          'center': [1300, 200],
+          'width': 1,
+          'colors': ['#46A', '#A44']
+        });
+        solenoid_one.init({
+          'length': 520,
+          'coils': 5,
+          'angle': -Math.PI/8,
+          'radius': 50,
+          'center': [400, 900],
           'width': 5,
           'color': '#46A'
         });
-        barmagnet.init({
-          'length': 400,
-          'angle': -Math.PI/6,
+        solenoid_two.init({
+          'length': 275,
+          'coils': 5,
+          'angle': Math.PI/2,
           'radius': 50,
-          'center': [1200, 800],
-          'width': 1,
-          'colors': ['#46A', '#A44']
+          'center': [800, 300],
+          'width': 5,
+          'color': '#46A'
+        });
+        plate_one.init({
+          'length': 550,
+          'charge': -5,
+          'angle': 0,
+          'radius': 15,
+          'center': [350, 350],
+          'width': 5,
+          'color': '#A64'
+        });
+        plate_two.init({
+          'length': 500,
+          'charge': 5,
+          'angle': -Math.PI,
+          'radius': 15,
+          'center': [950, 750],
+          'width': 5,
+          'color': '#46A'
+        });
+        plate_three.init({
+          'length': 800,
+          'charge': -5,
+          'angle': 0,
+          'radius': 15,
+          'center': [1100, 1100],
+          'width': 5,
+          'color': '#A64'
         });
         
         game.init({
           cid: 'foreground',
           sid: 'background',
           elements: [
-            barmagnet, 
-            solenoid,
+            barmagnet_one, 
+            barmagnet_two, 
+            solenoid_one, 
+            solenoid_two,
+            plate_one,
+            plate_two,
+            plate_three
           ]
         });
         game.static();
