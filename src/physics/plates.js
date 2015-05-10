@@ -23,10 +23,23 @@ function Plates() {
   **/
   this.frame = function() {
     var frame = 'b,ss:' + this.color + ',w:' + this.width + ",";
-    var corners = this.bounds();
+    var corners = this.bounds(); // + rotation
     frame += 'm:' + corners[0][0] + ':' + corners[0][1] + ',l:' + corners[1][0] + ':' + corners[1][1] + ',';
-    for (var i = 0; i < this.length/this.radius; i++) {
-      var start = corners[3][0] + i*this.radius;
+    var tick_l = this.width * 5;
+    for (var start = this.center[0] - this.length/2;
+         start < this.center[0] + this.length/2;
+         start += tick_l * 2) {
+      var end = start + tick_l;
+      var startv = this.rotate([start, this.center[1] + this.radius], this.angle);
+      var endv = this.rotate([end, this.center[1] + this.radius], this.angle);
+      frame += 'm:' + startv[0] + ':' + startv[1] + ',l:' + endv[0] + ':' + endv[1] + ',';
+    }
+    for (var start = this.center[0] - this.length/2;
+         start < this.center[0] + this.length/2;
+         start += tick_l * 2) {
+      var startv = this.rotate([start+tick_l/2, this.center[1] + this.radius - tick_l/2], this.angle);
+      var endv   = this.rotate([start+tick_l/2, this.center[1] + this.radius + tick_l/2], this.angle);
+      frame += 'm:' + startv[0] + ':' + startv[1] + ',l:' + endv[0] + ':' + endv[1] + ',';
     }
     frame += 's,c';
     return frame;
@@ -43,6 +56,18 @@ function Plates() {
     return object.charge / [object.length * object.length * perm];
   };
 
+  /**
+   * Return bounds of object according to the following chart.
+   * 
+   *     l
+   *     ^
+   *  l/2 l/2
+   * 0-------1
+   * |       | r
+   * |   c   |   } 2r
+   * |       | r
+   * 3-------2
+  **/
   this.bounds = function() {
     return [
       this.rotate([this.center[0] - this.length/2, this.center[1] - this.radius], this.angle),
