@@ -25,7 +25,7 @@ function Plates() {
     var frame = 'b,ss:' + this.color + ',w:' + this.width + ",";
     var corners = this.bounds(); // + rotation
     frame += 'm:' + corners[0][0] + ':' + corners[0][1] + ',l:' + corners[1][0] + ':' + corners[1][1] + ',';
-    var tick_l = this.width * 5;
+    var tick_l = this.width * 4;
     for (var start = this.center[0] - this.length/2;
          start < this.center[0] + this.length/2;
          start += tick_l * 2) {
