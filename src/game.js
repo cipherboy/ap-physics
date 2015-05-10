@@ -1,11 +1,13 @@
 function Controller() {
   this.cid = '';
   this.sid = '';
+  this.lid = '';
   this.width = 1600;
   this.height = 1200;
   this.force = {};
   this.framebuffer = [];
   this.elements = [];
+  this.player = null;
   this.bindHandler = function() {};
   this.unbindHandler = function() {};
 
@@ -27,6 +29,7 @@ function Controller() {
   };
   
   this.draw = function() {
+    
   };
     
   this.static = function() {
@@ -39,7 +42,8 @@ function Controller() {
     jCanvasDraw(canvas, ctx, frame);
   };
   
-  this.eventHandler
+  this.eventHandleMovement = function() {
+  };
   
   this.bindEvents = function() {
     this.unbindEvents();
@@ -58,5 +62,9 @@ function Controller() {
   
   this.unbindEvents = function() {
     this.unbindHandler();
+  };
+  
+  this.log = function() {
+    
   };
 }

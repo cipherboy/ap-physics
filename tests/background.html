@@ -8,6 +8,7 @@
     <h1>Test Cases</h1>
     <canvas id="foreground" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
     <canvas id="background" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
+    <div id="log"></div>
     <script type="text/javascript" src="../src/libs/jCanvas.js"></script>
     <script type="text/javascript" src="../src/libs/jQuery.js"></script>
     <script type="text/javascript" src="../src/game.js"></script>
@@ -39,6 +40,7 @@
         game.init({
           cid: 'foreground',
           sid: 'background',
+          lid: 'log',
           elements: [
             solenoid,
             barmagnet

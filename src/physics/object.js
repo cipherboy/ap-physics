@@ -40,6 +40,10 @@ function Player() {
     return net;
   };
   
+  this.move = function() {
+    
+  };
+  
   /**
    * Return drawn frame.
   **/
