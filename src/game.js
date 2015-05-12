@@ -10,6 +10,7 @@ function Controller() {
   this.player = null;
   this.bindHandler = function() {};
   this.unbindHandler = function() {};
+  this.running = true;
 
   /**
    * Generic initialization function
@@ -26,12 +27,28 @@ function Controller() {
     this.bindEvents();
     this.static();
     this.draw();
+    this.main(this);
+  };
+  
+  this.main = function(instance) {
+    var start = new Date().getTime();
+    instance.player.iterate();
+    this.draw();
+    if (instance.running) {
+      var end = new Date().getTime();
+      setTimeout(function() {
+        instance.main(instance);
+      }, ((1000/60) - (end - start))); 
+    }
   };
   
   this.draw = function() {
-    
+    var canvas = document.getElementById(this.cid);
+    var ctx = canvas.getContext('2d');
+    jCanvasDraw(canvas, ctx, "cs");
+    jCanvasDraw(canvas, ctx, this.player.frame());
   };
-    
+  
   this.static = function() {
     var canvas = document.getElementById(this.sid);
     var ctx = canvas.getContext('2d');
@@ -42,12 +59,13 @@ function Controller() {
     jCanvasDraw(canvas, ctx, frame);
   };
   
-  this.eventHandleMovement = function() {
+  this.eventHandleMovement = function(direction) {
+    this.player.applyForce(direction);
   };
   
   this.bindEvents = function() {
     this.unbindEvents();
-    $(document).on('keypress', { instance: this }, function(event) {
+    $(document).on('keydown', { instance: this }, function(event) {
       if (event.which >= 37 && event.which <= 40) {
         /**
          * 0 - 37 - Left
@@ -55,6 +73,7 @@ function Controller() {
          * 2 - 39 - Right
          * 3 - 40 - Down
         **/
+        event.data.instance.eventHandleMovement(event.which - 37);
       }
     });
     this.bindHandler();

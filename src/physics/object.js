@@ -12,7 +12,15 @@ function Player() {
   this.width = 0;
   this.radius = 0;
   this.color = '#000';
-
+  this.last = 0;
+  this.force = {
+    start: null,
+    last: null,
+    direction: 0,
+    scale: 5,
+    magnitude: 0
+  };
+  
   /**
    * Generic initialization function
   **/
@@ -22,6 +30,16 @@ function Player() {
         this[place] = obj[place];
       }
     }
+  };
+  
+  /**
+   * Return drawn frame.
+  **/
+  this.frame = function() {
+    var frame = 'b,sa,ss:' + this.color + ',fs:' + this.color + ',w:' + this.width + ',';
+    frame += 'm:' + this.center[0] + ':' + this.center[1] + ',a:' + this.center[0] + ':' + this.center[1] + ':' + this.radius + ':0:' + Math.PI*2.5 + ',';
+    frame += ',f,s,re,c';
+    return frame;
   };
   
   /**
@@ -40,17 +58,62 @@ function Player() {
     return net;
   };
   
-  this.move = function() {
-    
+  /**
+   * Increases force applied based upon time up to max force. 
+   * No return; since constant mass, force equaling acceleration;
+   * Leaves mass as second factor for difficulty level. 
+  **/
+  this.applyForce = function(direction) {
+    var current = new Date().getTime();
+    var magnitude = 0.3;
+    var directions = [
+      Math.PI,
+      -Math.PI/2,
+      0,
+      Math.PI/2
+    ];
+    console.log(directions[direction]);
+    [this.force['magnitude'], this.force['direction']] = this.sumForces([this.force['magnitude'], this.force['direction']], [0.1, directions[direction]]);
+    this.force['magnitude'] = Math.min(this.force['magnitude'], this.force['scale']);
+    console.log(this.force);
+    this.force['last'] = current;
   };
   
   /**
-   * Return drawn frame.
+   * TODO: Fix - think about it. 
   **/
-  this.frame = function() {
-    var frame = 'b,sa,ss:' + this.color + ',fs:' + this.color + ',w:' + this.width + ',';
-    frame += 'm:' + this.center[0] + ':' + this.center[1] + ',a:' + this.center[0] + ':' + this.center[1] + ':' + this.radius + ':0:' + Math.PI*2.5 + ',';
-    frame += ',f,s,re,c';
-    return frame;
+  this.iterate = function() {
+    var current = new Date().getTime();
+    
+    if (this.last != 0) {
+      var position = this.splitForces(this.force['magnitude'], this.force['direction']);
+      position[0] *= Math.pow((current-this.last)/10, 2);
+      position[1] *= Math.pow((current-this.last)/10, 2);
+      
+      this.center[0] += position[0];
+      this.center[1] += position[1];
+    }
+    
+    this.last = current;
+  };
+  
+  /**
+   * Given: a[magnitude, direction], b[magnitude, direction]
+   * Returns sum of two vectors
+  **/
+  this.sumForces = function(a, b) {
+    a = this.splitForces(a[0], a[1]);
+    b = this.splitForces(b[0], b[1]);
+    var magnitude = Math.sqrt(Math.pow(a[0] + b[0], 2) + Math.pow(a[1] + b[1], 2));
+    var direction = Math.atan2(a[1] + b[1] , a[0] + b[0]);
+    return [magnitude, direction];
+  };
+  
+  /**
+   * Given: magnitude, direction
+   * Returns x,y components of vector
+  **/
+  this.splitForces = function(magnitude, direction) {
+    return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
   };
 }

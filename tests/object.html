@@ -8,9 +8,11 @@
     <canvas id="foreground" class="simulator" width="1600" height="1200">Your browser does not support HTML5. Please update your browser; we recommend the latest <a href="https://mozilla.org/firefox">Firefox</a> release. </canvas>
     <script type="text/javascript" src="../src/libs/jCanvas.js"></script>
     <script type="text/javascript" src="../src/libs/jQuery.js"></script>
+    <script type="text/javascript" src="../src/game.js"></script>
     <script type="text/javascript" src="../src/physics/object.js"></script>
     <script type="text/javascript">
       $(function() {
+        game = new Controller();
         player = new Player();
         player.init({
           'radius': 50,
@@ -18,10 +20,14 @@
           'width': 5,
           'color': '#4A4'
         });
-        var frame = player.frame();
-        var canvas = document.getElementById('foreground');
-        var ctx = canvas.getContext('2d');
-        jCanvasDraw(canvas, ctx, frame);
+        
+        game.init({
+          cid: 'foreground',
+          sid: 'foreground',
+          lid: 'log',
+          player: player
+        });
+        game.start();
       });
     </script>
   </body>
