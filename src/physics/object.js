@@ -121,18 +121,22 @@ function Player() {
     
   this.bounce = function() {
     if(this.center[1] - this.radius <= 0) {
-      this.force['magnitude'] = -this.force['magnitude'];
+      this.force['direction'] = -this.force['direction'];
     }
-    else if(this.center[1] + this.radius >= 1200) {
-      this.force['magnitude'] = -this.force['magnitude'];  
+    if(this.center[1] + this.radius >= 1200) {
+      this.force['direction'] = -this.force['direction'];  
     }
     else if (this.center[0] + this.radius >= 1500) {
       var x = this.splitForces(this.force['magnitude'], this.force['direction']);
       x[0] = -x[0];
-      this.force['magnitude'] = this.sumForces(x[0], x[1]);
+      this.force['magnitude'] = -this.force['magnitude'];
+      this.force['direction'] = Math.cos(-x[0]/this.force['magnitude']);
     }
-    //else if (this.center[0] - this.radius <= 0) {
-      
-    //}
+    else if (this.center[0] - this.radius <= 0) {
+      var x = this.splitForces(this.force['magnitude'], this.force['direction']);
+      x[0] = -x[0];
+      this.force['magnitude'] = -this.force['magnitude'];
+      this.force['direction'] = Math.cos(-x[0]/this.force['magnitude']);
+    }
   };
 };
