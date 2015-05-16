@@ -32,13 +32,14 @@ function Controller() {
   
   this.main = function(instance) {
     var start = new Date().getTime();
+    console.log('main @ ' + start);
     instance.player.iterate();
     this.draw();
     if (instance.running) {
       var end = new Date().getTime();
       setTimeout(function() {
         instance.main(instance);
-      }, ((1000/60) - (end - start))); 
+      }, ((1000/45) - (end - start))); 
     }
   };
   

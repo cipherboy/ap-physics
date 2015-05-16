@@ -102,41 +102,59 @@ function Player() {
   this.sumForces = function(a, b) {
     a = this.splitForces(a[0], a[1]);
     b = this.splitForces(b[0], b[1]);
-    var magnitude = Math.sqrt(Math.pow(a[0] + b[0], 2) + Math.pow(a[1] + b[1], 2));
-    var direction = Math.atan2(a[1] + b[1] , a[0] + b[0]);
-    return [magnitude, direction];
+    
+    return this.joinForces(a[0]+b[0], a[1]+b[1]);
   };
   
   /**
    * Given: magnitude, direction
-   * Returns x,y components of vector
+   * Returns [x,y] components of vector
   **/
   this.splitForces = function(magnitude, direction) {
     return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
   };
+  
+  /**
+   * Given: x,y components of vector
+   * Returns [magnitude, direction]
+  **/
+  this.joinForces = function(x, y) {
+    var magnitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    var direction = Math.atan2(y, x);
     
-    /**
-    * Figures out if the object is at the wall and if it is, deflects it at the same angle to normal (only direction changes)
-    **/
-    
+    return [magnitude, direction];
+  };
+  
+  /**
+  * Figures out if the object is at the wall and if it is, deflects it at the same angle to normal (only direction changes)
+  **/
   this.bounce = function() {
-    if(this.center[1] - this.radius <= 0) {
-      this.force['direction'] = -this.force['direction'];
+    if (this.center[1] - this.radius <= 0) {
+      var x = 0;
+      var y = 0;
+      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      y = Math.abs(y);
+      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+    } else if (this.center[1] + this.radius >= 1200) {
+      var x = 0;
+      var y = 0;
+      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      y = -1*Math.abs(y);
+      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
     }
-    if(this.center[1] + this.radius >= 1200) {
-      this.force['direction'] = -this.force['direction'];  
-    }
-    else if (this.center[0] + this.radius >= 1500) {
-      var x = this.splitForces(this.force['magnitude'], this.force['direction']);
-      x[0] = -x[0];
-      this.force['magnitude'] = -this.force['magnitude'];
-      this.force['direction'] = Math.cos(-x[0]/this.force['magnitude']);
-    }
-    else if (this.center[0] - this.radius <= 0) {
-      var x = this.splitForces(this.force['magnitude'], this.force['direction']);
-      x[0] = -x[0];
-      this.force['magnitude'] = -this.force['magnitude'];
-      this.force['direction'] = Math.cos(-x[0]/this.force['magnitude']);
+      
+    if (this.center[0] - this.radius <= 0) {
+      var x = 0;
+      var y = 0;
+      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      x = Math.abs(x);
+      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+    } else if (this.center[0] + this.radius >= 1600) {
+      var x = 0;
+      var y = 0;
+      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      x = -1*Math.abs(x);
+      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
     }
   };
 };
