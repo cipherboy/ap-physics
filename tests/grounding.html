@@ -9,17 +9,18 @@
     <script type="text/javascript" src="../src/libs/jCanvas.js"></script>
     <script type="text/javascript" src="../src/libs/jQuery.js"></script>
     <script type="text/javascript" src="../src/physics/grounding.js"></script>
+    <script type="text/javascript" src="src/utils.js"></script>
     <script type="text/javascript">
       $(function() {
         grounding = new Grounding();
         grounding.init({
-          'length': 500,
-          'charge': 0,
-          'angle': Math.PI/6,
-          'radius': 15,
-          'center': [500,500],
-          'width': 10,
-          'color': '#133F1C'
+          length: 500,
+          rate: 0,
+          angle: Math.PI/6,
+          radius: 15,
+          center: [500,500],
+          width: 10,
+          color: '#133F1C'
         });
           
         var frame = grounding.frame();

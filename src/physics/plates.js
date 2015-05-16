@@ -48,14 +48,15 @@ function Plates() {
   };
 
   /**
-   * Given object, return electric field acting on object
+   * Given object, return force due to electric field acting on object
    * Equations: 
+   * F = Eq
    * E = Q/ EA (E = 8.85 x 10^-12)
    * W = Eqr
   **/
-  this.field = function(object) {
+  this.force = function(charge, location) {
     var perm = 8.85E-12;
-    return object.charge / [object.length * object.length * perm];
+    return [charge * this.charge / ( this.length * this.radius * 1000 * 1000 * perm), this.angle - Math.PI/2];
   };
 
   /**

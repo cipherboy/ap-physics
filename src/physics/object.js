@@ -46,7 +46,7 @@ function Player() {
    * Returns net charge of object from summing this.state
   **/
   this.charge = function() {
-    var net = 0;
+    var net = 1;
     for (var y in this.state) {
       for (var x in this.state[y]) {
         if (this.state[y][x] != 'x') {
@@ -72,7 +72,7 @@ function Player() {
       0,
       Math.PI/2
     ];
-    [this.force['magnitude'], this.force['direction']] = this.sumForces([this.force['magnitude'], this.force['direction']], [0.1, directions[direction]]);
+    [this.force['magnitude'], this.force['direction']] = sumForces([this.force['magnitude'], this.force['direction']], [0.1, directions[direction]]);
     this.force['magnitude'] = Math.min(this.force['magnitude'], this.force['scale']);
     this.force['last'] = current;
   };
@@ -80,13 +80,14 @@ function Player() {
   /**
    * TODO: Fix - think about it. 
   **/
-  this.iterate = function() {
+  this.iterate = function(external) {
     var current = new Date().getTime();
+    var force = sumForces([this.force['magnitude'], this.force['direction']], external);
     this.bounce();
     if (this.last != 0) {
-      var position = this.splitForces(this.force['magnitude'], this.force['direction']);
-      position[0] *= Math.pow((current-this.last)/10, 2);
-      position[1] *= Math.pow((current-this.last)/10, 2);
+      var position = splitForces(force[0], force[1]);
+      position[0] *= Math.pow(1000/600, 2);
+      position[1] *= Math.pow(1000/600, 2);
       
       this.center[0] += position[0];
       this.center[1] += position[1];
@@ -96,65 +97,35 @@ function Player() {
   };
   
   /**
-   * Given: a[magnitude, direction], b[magnitude, direction]
-   * Returns sum of two vectors
-  **/
-  this.sumForces = function(a, b) {
-    a = this.splitForces(a[0], a[1]);
-    b = this.splitForces(b[0], b[1]);
-    
-    return this.joinForces(a[0]+b[0], a[1]+b[1]);
-  };
-  
-  /**
-   * Given: magnitude, direction
-   * Returns [x,y] components of vector
-  **/
-  this.splitForces = function(magnitude, direction) {
-    return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
-  };
-  
-  /**
-   * Given: x,y components of vector
-   * Returns [magnitude, direction]
-  **/
-  this.joinForces = function(x, y) {
-    var magnitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-    var direction = Math.atan2(y, x);
-    
-    return [magnitude, direction];
-  };
-  
-  /**
   * Figures out if the object is at the wall and if it is, deflects it at the same angle to normal (only direction changes)
   **/
-  this.bounce = function() {
+  this.bounce = function(boundsx, boundsy) {
     if (this.center[1] - this.radius <= 0) {
       var x = 0;
       var y = 0;
-      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      [x, y] = splitForces(this.force['magnitude'], this.force['direction']); 
       y = Math.abs(y);
-      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+      [this.force['magnitude'], this.force['direction']] = joinForces(x, y);
     } else if (this.center[1] + this.radius >= 1200) {
       var x = 0;
       var y = 0;
-      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      [x, y] = splitForces(this.force['magnitude'], this.force['direction']); 
       y = -1*Math.abs(y);
-      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+      [this.force['magnitude'], this.force['direction']] = joinForces(x, y);
     }
       
     if (this.center[0] - this.radius <= 0) {
       var x = 0;
       var y = 0;
-      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      [x, y] = splitForces(this.force['magnitude'], this.force['direction']); 
       x = Math.abs(x);
-      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+      [this.force['magnitude'], this.force['direction']] = joinForces(x, y);
     } else if (this.center[0] + this.radius >= 1600) {
       var x = 0;
       var y = 0;
-      [x, y] = this.splitForces(this.force['magnitude'], this.force['direction']); 
+      [x, y] = splitForces(this.force['magnitude'], this.force['direction']); 
       x = -1*Math.abs(x);
-      [this.force['magnitude'], this.force['direction']] = this.joinForces(x, y);
+      [this.force['magnitude'], this.force['direction']] = joinForces(x, y);
     }
   };
 };

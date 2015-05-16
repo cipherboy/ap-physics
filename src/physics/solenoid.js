@@ -44,11 +44,11 @@ function Solenoid() {
    * Given object,
    * Return magnetic field acting on object.
   **/
-  this.field = function(object) {
-    if (this.contains(object)) {
-      return [4 * Math.PI * 1E-7 * object.charge * this.coils/this.length * this.current, this.angle];
+  this.force = function(charge, location) {
+    if (this.contains(location)) {
+      return [4 * Math.PI * 1E-7 * charge * this.coils/(this.length/1000 * this.current), this.angle];
     } else {
-      return [4 * Math.PI * 1E-7 * object.charge * this.coils/this.length * this.current / Math.pow(this.distance(object), 2), this.angle];
+      return [4 * Math.PI * 1E-7 * charge * this.coils/(this.length/1000 * this.current * Math.pow(this.distance(location), 2)), this.angle];
     }
   };
 
@@ -58,12 +58,12 @@ function Solenoid() {
    * 
    * Checks all brefore returning. 
   **/
-  this.distance = function(object) {
+  this.distance = function(location) {
     var shortest = 9E+9;
     var corners = this.bounds();
     for (var loc in corners) {
       var corner = corners[loc];
-      var distance = Math.sqrt(Math.pow(corner[0] - object.center[0], 2) + Math.pow(corner[1] - object.center[1], 2));
+      var distance = Math.sqrt(Math.pow(corner[0] - location[0], 2) + Math.pow(corner[1] - location[1], 2));
       if (distance < shortest) {
         shortest = distance;
       }
@@ -78,20 +78,20 @@ function Solenoid() {
    *
    * Left, Right, Top, Bottom checking (best case: left of object. worst case: below object)
   **/
-  this.contains = function(object) {
+  this.contains = function(location) {
     var bounds = this.bounds();
     var left = ( bounds[0][1] - bounds[3][1] ) / ( bounds[0][0] - bounds[3][1] );
     var right = ( bounds[1][1] - bounds[2][1] ) / ( bounds[1][0] - bounds[2][1] );
     var top = ( bounds[1][1] - bounds[0][1] ) / ( bounds[1][0] - bounds[0][1] );
     var bottom = ( bounds[2][1] - bounds[3][1] ) / ( bounds[2][0] - bounds[3][1] );
     
-    if ( left * (object.center[0] - bounds[0][0]) < object.center[1] - bounds[0][1]) {
+    if ( left * (location[0] - bounds[0][0]) < location[1] - bounds[0][1]) {
       return false;
-    } else if ( right * (object.center[0] - bounds[1][0]) > object.center[1] - bounds[1][1]) {
+    } else if ( right * (location[0] - bounds[1][0]) > location[1] - bounds[1][1]) {
       return false;
-    } else if ( top * (object.center[0] - bounds[0][0]) < object.center[1] - bounds[0][1]) {
+    } else if ( top * (location[0] - bounds[0][0]) < location[1] - bounds[0][1]) {
       return false;
-    } else if ( bottom * (object.center[0] - bounds[2][0]) > object.center[1] - bounds[2][1]) {
+    } else if ( bottom * (location[0] - bounds[2][0]) > location[1] - bounds[2][1]) {
       return false;
     }
     

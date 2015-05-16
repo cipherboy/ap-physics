@@ -14,10 +14,13 @@
     <script type="text/javascript" src="src/physics/plates.js"></script>
     <script type="text/javascript" src="src/physics/solenoid.js"></script>
     <script type="text/javascript" src="src/physics/wire.js"></script>
+    <script type="text/javascript" src="src/physics/grounding.js"></script>
     <script type="text/javascript" src="src/game.js"></script>
+    <script type="text/javascript" src="src/utils.js"></script>
     <script type="text/javascript">
       $(function() {
-        var game = new Controller();
+        game = new Controller();
+        var player = new Player();
         var barmagnet_one = new Barmagnet();
         var barmagnet_two = new Barmagnet();
         var solenoid_one = new Solenoid();
@@ -25,6 +28,14 @@
         var plate_one = new Plates();
         var plate_two = new Plates();
         var plate_three = new Plates();
+        var grounding = new Grounding();
+        
+        player.init({
+          'radius': 30,
+          'center': [100, 200],
+          'width': 5,
+          'color': '#4A4'
+        });
         barmagnet_one.init({
           'length': 533,
           'angle': 0,
@@ -43,7 +54,8 @@
         });
         solenoid_one.init({
           'length': 520,
-          'coils': 5,
+          'coils': 900,
+          'current': 0.001,
           'angle': -Math.PI/8,
           'radius': 50,
           'center': [400, 900],
@@ -52,7 +64,8 @@
         });
         solenoid_two.init({
           'length': 275,
-          'coils': 5,
+          'coils': 900,
+          'current': 0.001,
           'angle': Math.PI/2,
           'radius': 50,
           'center': [800, 300],
@@ -61,7 +74,7 @@
         });
         plate_one.init({
           'length': 550,
-          'charge': -5,
+          'charge': -0.005,
           'angle': 0,
           'radius': 15,
           'center': [350, 350],
@@ -70,7 +83,7 @@
         });
         plate_two.init({
           'length': 500,
-          'charge': 5,
+          'charge': 0.005,
           'angle': -Math.PI,
           'radius': 15,
           'center': [950, 750],
@@ -79,17 +92,27 @@
         });
         plate_three.init({
           'length': 800,
-          'charge': -5,
+          'charge': -0.005,
           'angle': 0,
           'radius': 15,
           'center': [1100, 1100],
           'width': 5,
           'color': '#A64'
         });
+        grounding.init({
+          length: 300,
+          rate: 10,
+          angle: Math.PI/25,
+          radius: 15,
+          center: [300, 125],
+          width: 10,
+          color: '#333333'
+        });
         
         game.init({
           cid: 'foreground',
           sid: 'background',
+          player: player,
           elements: [
             barmagnet_one, 
             barmagnet_two, 
@@ -97,10 +120,11 @@
             solenoid_two,
             plate_one,
             plate_two,
-            plate_three
+            plate_three,
+            grounding
           ]
         });
-        game.static();
+        game.start();
       });
     </script>
   </body>

@@ -60,9 +60,9 @@ function Barmagnet() {
    * Given object,
    * Return magnetic field acting on object.
   **/
-  this.field = function(object) {
+  this.force = function(charge, location) {
     // http://dmr-physicsnotes.blogspot.com/2013/01/magnetic-field-strength-at-point-due-to.html
-    return this.strength;
+    return [this.strength*charge, this.angle];
   };
 
   /**

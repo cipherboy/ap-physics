@@ -32,15 +32,30 @@ function Controller() {
   
   this.main = function(instance) {
     var start = new Date().getTime();
-    console.log('main @ ' + start);
-    instance.player.iterate();
+    instance.player.iterate(instance.findForces());
     this.draw();
     if (instance.running) {
       var end = new Date().getTime();
       setTimeout(function() {
         instance.main(instance);
-      }, ((1000/45) - (end - start))); 
+      }, ((1000/60) - (end - start))); 
     }
+  };
+  
+  this.findForces = function() {
+    console.log("=====Find Forces @ " + new Date().getTime() + "=====");
+    var charge = this.player.charge();
+    var center = this.player.center;
+    var net = [0, 0];
+    for (var eid in this.elements) {
+      var element = this.elements[eid];
+      var force = element.force(charge, center);
+      net = sumForces(net, force);
+      console.log("e (" + element.center + "): " + force);
+    }
+    console.log("net: " + net);
+    console.log("=====End Forces=====");
+    return net;
   };
   
   this.draw = function() {

@@ -37,8 +37,8 @@ function Wire() {
    * Given object,
    * Return magnetic field acting on object.
   **/
-  this.field = function(object) {
-    return [2E-7 * object.charge * this.current / this.distance(), this.angle];
+  this.force = function(charge, location) {
+    return 2E-7 * object.charge * object.charge * this.current / this.distance();
   };
   
   /**
