@@ -72,10 +72,8 @@ function Player() {
       0,
       Math.PI/2
     ];
-    console.log(directions[direction]);
     [this.force['magnitude'], this.force['direction']] = this.sumForces([this.force['magnitude'], this.force['direction']], [0.1, directions[direction]]);
     this.force['magnitude'] = Math.min(this.force['magnitude'], this.force['scale']);
-    console.log(this.force);
     this.force['last'] = current;
   };
   
@@ -84,7 +82,7 @@ function Player() {
   **/
   this.iterate = function() {
     var current = new Date().getTime();
-    
+    this.bounce();
     if (this.last != 0) {
       var position = this.splitForces(this.force['magnitude'], this.force['direction']);
       position[0] *= Math.pow((current-this.last)/10, 2);
@@ -116,4 +114,25 @@ function Player() {
   this.splitForces = function(magnitude, direction) {
     return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
   };
-}
+    
+    /**
+    * Figures out if the object is at the wall and if it is, deflects it at the same angle to normal (only direction changes)
+    **/
+    
+  this.bounce = function() {
+    if(this.center[1] - this.radius <= 0) {
+      this.force['magnitude'] = -this.force['magnitude'];
+    }
+    else if(this.center[1] + this.radius >= 1200) {
+      this.force['magnitude'] = -this.force['magnitude'];  
+    }
+    else if (this.center[0] + this.radius >= 1500) {
+      var x = this.splitForces(this.force['magnitude'], this.force['direction']);
+      x[0] = -x[0];
+      this.force['magnitude'] = this.sumForces(x[0], x[1]);
+    }
+    //else if (this.center[0] - this.radius <= 0) {
+      
+    //}
+  };
+};
