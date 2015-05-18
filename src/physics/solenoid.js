@@ -47,7 +47,7 @@ function Solenoid() {
   this.force = function(charge, location) {
     if (this.contains(location)) {
       if (this.angle > 0) { 
-        return [100*4 * Math.PI * 1E-7 * charge * this.coils/(this.length/1000 * this.current), this.angle + Math.PI];
+        return [100*4 * Math.PI * 1E-7 * charge * this.coils/(this.length/1000 * this.current), this.angle - (Math.PI/4)];
       }
       else {
          return [100*4 * Math.PI * 1E-7 * charge * this.coils/(this.length/1000 * this.current), this.angle + (Math.PI/2)];

@@ -62,7 +62,12 @@ function Barmagnet() {
   **/
   this.force = function(charge, location) {
     // http://dmr-physicsnotes.blogspot.com/2013/01/magnetic-field-strength-at-point-due-to.html
-    return [this.strength*charge, this.angle];
+    var corners = this.bounds();
+    if (location[0] > corners[0][0] && location[0] < corners[1][0]) { 
+      return [this.strength, this.angle - (Math.PI/2)];
+    } else {
+      return [0, 0];
+    }
   };
 
   /**

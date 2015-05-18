@@ -34,6 +34,7 @@ function Controller() {
     var start = new Date().getTime();
     instance.player.iterate(instance.findForces());
     this.draw();
+    this.checkEnd();
     if (instance.running) {
       var end = new Date().getTime();
       setTimeout(function() {
@@ -58,6 +59,14 @@ function Controller() {
     return net;
   };
   
+  this.checkEnd = function() {
+    if (this.player.center[0] + this.player.radius > 1225 && this.player.center[0] - this.player.radius < 1375 && this.player.center[1] + this.player.radius > 475 && this.player.center[1] - this.player.radius < 625) {
+      this.running = false;
+      $('body').append('<h1>Game over! :)</h1>');
+      $('canvas').hide();
+    }
+  };
+  
   this.draw = function() {
     var canvas = document.getElementById(this.cid);
     var ctx = canvas.getContext('2d');
@@ -72,6 +81,7 @@ function Controller() {
     for (var eid in this.elements) {
       frame += this.elements[eid].frame() + ',';
     }
+    frame += "b,fs:#000000,ss:#000000,w:0,m:,a:1300:550:75:0:" + Math.PI*2 + ",f,";
     jCanvasDraw(canvas, ctx, frame);
   };
   
