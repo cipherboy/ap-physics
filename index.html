@@ -54,7 +54,7 @@
         });
         solenoid_one.init({
           'length': 500,
-          'coils': 900,
+          'coils': 1500,
           'current': 0.002,
           'angle': -Math.PI/9,
           'radius': 50,
@@ -64,8 +64,8 @@
         });
         solenoid_two.init({
           'length': 275,
-          'coils': 900,
-          'current': 0.002,
+          'coils': 1500,
+          'current': -0.002,
           'angle': Math.PI/3,
           'radius': 50,
           'center': [800, 300],
@@ -79,7 +79,8 @@
           'radius': 15,
           'center': [350, 250],
           'width': 5,
-          'color': '#E61515'
+          'color': '#E61515',
+          'area': [75, 625, 0, 265],
         });
         plate_two.init({
           'length': 500,
@@ -88,7 +89,8 @@
           'radius': 15,
           'center': [950, 850],
           'width': 5,
-          'color': '#1222DB'
+          'color': '#1222DB',
+          'area': [700, 1200, 835, 1115],
         });
         plate_three.init({
           'length': 800,
@@ -97,7 +99,8 @@
           'radius': 15,
           'center': [1100, 1100],
           'width': 5,
-          'color': '#E61515'
+          'color': '#E61515',
+          'area': [700, 1500, 835, 1115],
         });
         grounding.init({
           length: 300,

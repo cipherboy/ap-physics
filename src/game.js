@@ -51,9 +51,9 @@ function Controller() {
       var element = this.elements[eid];
       var force = element.force(charge, center);
       net = sumForces(net, force);
-      console.log("e (" + element.center + "): " + force);
+      console.log("Force " + eid + ": " + force);
     }
-    console.log("net: " + net);
+    console.log("Net: " + net);
     console.log("=====End Forces=====");
     return net;
   };
@@ -90,6 +90,11 @@ function Controller() {
          * 3 - 40 - Down
         **/
         event.data.instance.eventHandleMovement(event.which - 37);
+      } else if (event.which == 90) {
+        event.data.instance.player.force.magnitude = 0;
+        event.data.instance.player.force.direction = 0;
+      } else if (event.which == 83) {
+        event.data.instance.running = false;
       }
     });
     this.bindHandler();

@@ -5,6 +5,7 @@ function Plates() {
   this.radius = 0;
   this.width = 0;
   this.center = [0, 0];
+  this.area = [0, 1600, 0, 1200];
   this.color = '#000';
 
   /**
@@ -56,7 +57,21 @@ function Plates() {
   **/
   this.force = function(charge, location) {
     var perm = 8.85E-12;
-    return [charge * this.charge / ( this.length * this.radius * 1000 * 1000 * perm), this.angle - Math.PI/2];
+    console.log(this.area);
+    console.log(location);
+    console.log(this.contains(location));
+    if (this.contains(location)) {
+      return [charge * this.charge / ( this.length * this.radius * 1000 * 1000 * perm), this.angle - Math.PI/2];
+    } else {
+      return [0, 0];
+    }
+  };
+  
+  this.contains = function(location) {
+    if (location[0] > this.area[0] && location[0] < this.area[1] && location[1] > this.area[2] && location[1] < this.area[3]) {
+      return true;
+    }
+    return false;
   };
 
   /**
